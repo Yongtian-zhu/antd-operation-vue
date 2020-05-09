@@ -1,138 +1,191 @@
 <template>
-  <a-card :body-style="{padding: '24px 32px'}" :bordered="false">
-    <a-form @submit="handleSubmit" :form="form">
-      <a-form-item
-        label="标题"
-        :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-        :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
-        <a-input
-          v-decorator="[
-            'name',
-            {rules: [{ required: true, message: '请输入标题' }]}
-          ]"
-          name="name"
-          placeholder="给目标起个名字" />
-      </a-form-item>
-      <a-form-item
-        label="起止日期"
-        :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-        :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
-        <a-range-picker
-          name="buildTime"
-          style="width: 100%"
-          v-decorator="[
-            'buildTime',
-            {rules: [{ required: true, message: '请选择起止日期' }]}
-          ]" />
-      </a-form-item>
-      <a-form-item
-        label="目标描述"
-        :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-        :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
-        <a-textarea
-          rows="4"
-          placeholder="请输入你阶段性工作目标"
-          v-decorator="[
-            'description',
-            {rules: [{ required: true, message: '请输入目标描述' }]}
-          ]" />
-      </a-form-item>
-      <a-form-item
-        label="衡量标准"
-        :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-        :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
-        <a-textarea
-          rows="4"
-          placeholder="请输入衡量标准"
-          v-decorator="[
-            'type',
-            {rules: [{ required: true, message: '请输入衡量标准' }]}
-          ]" />
-      </a-form-item>
-      <a-form-item
-        label="客户"
-        :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-        :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
-        <a-input
-          placeholder="请描述你服务的客户，内部客户直接 @姓名／工号"
-          v-decorator="[
-            'customer',
-            {rules: [{ required: true, message: '请描述你服务的客户' }]}
-          ]" />
-      </a-form-item>
-      <a-form-item
-        label="邀评人"
-        :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-        :wrapperCol="{lg: {span: 10}, sm: {span: 17} }"
-        :required="false"
-      >
-        <a-input placeholder="请直接 @姓名／工号，最多可邀请 5 人" />
-      </a-form-item>
-      <a-form-item
-        label="权重"
-        :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-        :wrapperCol="{lg: {span: 10}, sm: {span: 17} }"
-        :required="false"
-      >
-        <a-input-number :min="0" :max="100" />
-        <span> %</span>
-      </a-form-item>
-      <a-form-item
-        label="目标公开"
-        :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-        :wrapperCol="{lg: {span: 10}, sm: {span: 17} }"
-        :required="false"
-        help="客户、邀评人默认被分享"
-      >
-        <a-radio-group v-model="value">
-          <a-radio :value="1">公开</a-radio>
-          <a-radio :value="2">部分公开</a-radio>
-          <a-radio :value="3">不公开</a-radio>
-        </a-radio-group>
-        <a-form-item>
-          <a-select mode="multiple" v-if="value === 2">
-            <a-select-option value="4">同事一</a-select-option>
-            <a-select-option value="5">同事二</a-select-option>
-            <a-select-option value="6">同事三</a-select-option>
-          </a-select>
-        </a-form-item>
-      </a-form-item>
-      <a-form-item
-        :wrapperCol="{ span: 24 }"
-        style="text-align: center"
-      >
-        <a-button htmlType="submit" type="primary">提交</a-button>
-        <a-button style="margin-left: 8px">保存</a-button>
-      </a-form-item>
-    </a-form>
+  <a-card :bordered="false">
+    <div class="table-page-search-wrapper">
+      <a-form layout="inline">
+        <a-row :gutter="48">
+          <a-col :md="8" :sm="24">
+            <a-form-item label="组织名称">
+              <a-input placeholder="请输入"/>
+            </a-form-item>
+          </a-col>
+          <a-col :md="8" :sm="24">
+            <a-form-item label="状态">
+              <a-select placeholder="请选择">
+                <a-select-option value="0">启用</a-select-option>
+                <a-select-option value="1">禁止</a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+          <a-col :md="8" :sm="24">
+            <a-form-item label="上级组织">
+              <a-select placeholder="请选择" default-value="0">
+                <a-select-option value="0">待定</a-select-option>
+                <a-select-option value="1">人大代表</a-select-option>
+                <a-select-option value="2">公安局</a-select-option>
+                <a-select-option value="3">省厅</a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+          <a-col :md="8" :sm="24" :offset="20">
+            <span class="table-page-search-submitButtons">
+              <a-button type="primary">查询</a-button>
+              <a-button style="margin-left: 8px">重置</a-button>
+            </span>
+          </a-col>
+        </a-row>
+      </a-form>
+    </div>
+
+    <s-table
+      ref="table"
+      size="default"
+      :columns="columns"
+      :data="loadData"
+    >
+      <div
+        slot="expandedRowRender"
+        slot-scope="record"
+        style="margin: 0">
+        <a-row
+          :gutter="24"
+          :style="{ marginBottom: '12px' }">
+          <a-col :span="12" v-for="(role, index) in record.permissions" :key="index" :style="{ marginBottom: '12px' }">
+            <a-col :span="4">
+              <span>{{ role.permissionName }}：</span>
+            </a-col>
+            <a-col :span="20" v-if="role.actionEntitySet.length > 0">
+              <a-tag color="cyan" v-for="(action, k) in role.actionEntitySet" :key="k">{{ action.describe }}</a-tag>
+            </a-col>
+            <a-col :span="20" v-else>-</a-col>
+          </a-col>
+        </a-row>
+      </div>
+      <span slot="action" slot-scope="text, record">
+        <a @click="$refs.modal.edit(record)">编辑</a>
+        <a-divider type="vertical" />
+        <a-dropdown>
+          <a class="ant-dropdown-link">
+            更多 <a-icon type="down" />
+          </a>
+          <a-menu slot="overlay">
+            <a-menu-item>
+              <a href="javascript:;">详情</a>
+            </a-menu-item>
+            <a-menu-item>
+              <a href="javascript:;">禁用</a>
+            </a-menu-item>
+            <a-menu-item>
+              <a href="javascript:;">删除</a>
+            </a-menu-item>
+          </a-menu>
+        </a-dropdown>
+      </span>
+    </s-table>
+
+    <role-modal ref="modal" @ok="handleOk"></role-modal>
+
   </a-card>
 </template>
 
 <script>
+import { STable } from '@/components'
+import RoleModal from './modules/RoleModal'
+
 export default {
   name: 'BaseForm',
+  components: {
+    STable,
+    RoleModal
+  },
   data () {
     return {
-      description: '表单页用于向用户收集或验证信息，基础表单常见于数据项较少的表单场景。',
-      value: 1,
+      description: '列表使用场景：后台管理中的权限管理以及角色管理，可用于基于 RBAC 设计的角色权限控制，颗粒度细到每一个操作类型。',
 
-      // form
-      form: this.$form.createForm(this)
+      visible: false,
 
+      form: null,
+      mdl: {},
+
+      // 高级搜索 展开/关闭
+      advanced: false,
+      // 查询参数
+      queryParam: {},
+      // 表头
+      columns: [
+        {
+          title: '唯一识别码',
+          dataIndex: 'id'
+        },
+        {
+          title: '角色名称',
+          dataIndex: 'name'
+        },
+        {
+          title: '状态',
+          dataIndex: 'status'
+        },
+        {
+          title: '创建时间',
+          dataIndex: 'createTime',
+          sorter: true
+        }, {
+          title: '操作',
+          width: '150px',
+          dataIndex: 'action',
+          scopedSlots: { customRender: 'action' }
+        }
+      ],
+      // 加载数据方法 必须为 Promise 对象
+      loadData: parameter => {
+        return this.$http.get('/role', {
+          params: Object.assign(parameter, this.queryParam)
+        }).then(res => {
+          return res.result
+        })
+      },
+
+      selectedRowKeys: [],
+      selectedRows: []
     }
   },
   methods: {
+    handleEdit (record) {
+      this.mdl = Object.assign({}, record)
 
-    // handler
-    handleSubmit (e) {
-      e.preventDefault()
-      this.form.validateFields((err, values) => {
-        if (!err) {
-          // eslint-disable-next-line no-console
-          console.log('Received values of form: ', values)
-        }
+      this.mdl.permissions.forEach(permission => {
+        permission.actionsOptions = permission.actionEntitySet.map(action => {
+          return { label: action.describe, value: action.action, defaultCheck: action.defaultCheck }
+        })
       })
+
+      console.log(this.mdl)
+      this.visible = true
+    },
+    handleOk () {
+      // 新增/修改 成功时，重载列表
+      this.$refs.table.refresh()
+    },
+    onChange (selectedRowKeys, selectedRows) {
+      this.selectedRowKeys = selectedRowKeys
+      this.selectedRows = selectedRows
+    },
+    toggleAdvanced () {
+      this.advanced = !this.advanced
     }
+  },
+  watch: {
+    /*
+      'selectedRows': function (selectedRows) {
+        this.needTotalList = this.needTotalList.map(item => {
+          return {
+            ...item,
+            total: selectedRows.reduce( (sum, val) => {
+              return sum + val[item.dataIndex]
+            }, 0)
+          }
+        })
+      }
+      */
   }
 }
 </script>

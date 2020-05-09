@@ -1,7 +1,7 @@
 <template>
   <div class="logo">
     <router-link :to="{name:'dashboard'}">
-      <LogoSvg alt="logo" />
+      <LogoSvg class="logosvg" alt="logo" />
       <h1 v-if="showTitle">{{ title }}</h1>
     </router-link>
   </div>
@@ -18,7 +18,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: 'Ant Design Pro',
+      default: '运维管理系统',
       required: false
     },
     showTitle: {
@@ -29,3 +29,7 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+
+</style>

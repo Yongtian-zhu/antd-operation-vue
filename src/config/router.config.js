@@ -1,6 +1,6 @@
 // eslint-disable-next-line
 import { UserLayout, BasicLayout, RouteView, BlankLayout, PageView } from '@/layouts'
-import { bxAnaalyse } from '@/core/icons'
+// import { bxAnaalyse } from '@/core/icons'
 
 export const asyncRouterMap = [
 
@@ -9,61 +9,55 @@ export const asyncRouterMap = [
     name: 'index',
     component: BasicLayout,
     meta: { title: '首页' },
-    redirect: '/dashboard/workplace',
+    redirect: '/form/base-form',
     children: [
       // dashboard
-      {
-        path: 'dashboard',
-        name: 'dashboard',
-        redirect: '/dashboard/workplace',
-        component: RouteView,
-        meta: { title: '仪表盘', keepAlive: true, icon: bxAnaalyse, permission: [ 'dashboard' ] },
-        children: [
-          {
-            path: 'analysis/:pageNo([1-9]\\d*)?',
-            name: 'Analysis',
-            component: () => import('@/views/dashboard/Analysis'),
-            meta: { title: '分析页', keepAlive: false, permission: [ 'dashboard' ] }
-          },
-          // 外部链接
-          {
-            path: 'https://www.baidu.com/',
-            name: 'Monitor',
-            meta: { title: '监控页（外部）', target: '_blank' }
-          },
-          {
-            path: 'workplace',
-            name: 'Workplace',
-            component: () => import('@/views/dashboard/Workplace'),
-            meta: { title: '工作台', keepAlive: true, permission: [ 'dashboard' ] }
-          },
-          {
-            path: 'test-work',
-            name: 'TestWork',
-            component: () => import('@/views/dashboard/TestWork'),
-            meta: { title: '测试功能', keepAlive: true, permission: [ 'dashboard' ] }
-          }
-        ]
-      },
+      // {
+      //   path: 'dashboard',
+      //   name: 'dashboard',
+      //   redirect: '/dashboard/workplace',
+      //   component: RouteView,
+      //   meta: { title: '仪表盘', keepAlive: true, icon: bxAnaalyse, permission: [ 'dashboard' ] },
+      //   children: [
+      //     {
+      //       path: 'analysis/:pageNo([1-9]\\d*)?',
+      //       name: 'Analysis',
+      //       component: () => import('@/views/dashboard/Analysis'),
+      //       meta: { title: '分析页', keepAlive: false, permission: [ 'dashboard' ] }
+      //     },
+      //     {
+      //       path: 'workplace',
+      //       name: 'Workplace',
+      //       component: () => import('@/views/dashboard/Workplace'),
+      //       meta: { title: '工作台', keepAlive: true, permission: [ 'dashboard' ] }
+      //     },
+      //     {
+      //       path: 'test-work',
+      //       name: 'TestWork',
+      //       component: () => import('@/views/dashboard/TestWork'),
+      //       meta: { title: '测试功能', keepAlive: true, permission: [ 'dashboard' ] }
+      //     }
+      //   ]
+      // },
 
       // forms
       {
         path: '/form',
         redirect: '/form/base-form',
         component: PageView,
-        meta: { title: '表单页', icon: 'form', permission: [ 'form' ] },
+        meta: { title: '用户组织管理', icon: 'form', permission: [ 'form' ] },
         children: [
           {
             path: '/form/base-form',
             name: 'BaseForm',
             component: () => import('@/views/form/BasicForm'),
-            meta: { title: '基础表单', keepAlive: true, permission: [ 'form' ] }
+            meta: { title: '组织', keepAlive: true, permission: [ 'form' ] }
           },
           {
             path: '/form/step-form',
             name: 'StepForm',
             component: () => import('@/views/form/stepForm/StepForm'),
-            meta: { title: '分步表单', keepAlive: true, permission: [ 'form' ] }
+            meta: { title: '用户', keepAlive: true, permission: [ 'form' ] }
           },
           {
             path: '/form/advanced-form',
