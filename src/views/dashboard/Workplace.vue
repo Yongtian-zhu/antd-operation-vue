@@ -1,19 +1,22 @@
 <template>
   <page-view :avatar="avatar" :title="false">
     <div slot="headerContent">
-      <div class="title">{{ timeFix }}，{{ user.name }}<span class="welcome-text">，{{ welcome }}</span></div>
-      <div>前端工程师 | 蚂蚁金服 - 某某某事业群 - VUE平台</div>
+      <div class="title">{{ timeFix }}<span class="welcome-text">，{{ welcome }}</span></div>
+      <div>不要害怕遭遇风险。只有通过冒险，我们才能学会如何变得勇敢。</div>
     </div>
     <div slot="extra">
       <a-row class="more-info">
-        <a-col :span="8">
-          <head-info title="项目" content="56" :center="false" :bordered="false"/>
+        <a-col :span="6">
+          <head-info title="界次" content="56" :center="false" :bordered="false"/>
         </a-col>
-        <a-col :span="8">
-          <head-info title="团队排名" content="8/24" :center="false" :bordered="false"/>
+        <a-col :span="6">
+          <head-info title="会次" content="8/24" :center="false" :bordered="false"/>
         </a-col>
-        <a-col :span="8">
-          <head-info title="项目数" content="2,223" :center="false" />
+        <a-col :span="6">
+          <head-info title="访问次数" content="2,223" :center="false" />
+        </a-col>
+        <a-col :span="6">
+          <head-info title="上次访问时间" content="09:14:50" :center="false" />
         </a-col>
       </a-row>
     </div>
@@ -112,11 +115,9 @@
 <script>
 import { timeFix } from '@/utils/util'
 import { mapState } from 'vuex'
-
 import { PageView } from '@/layouts'
 import HeadInfo from '@/components/tools/HeadInfo'
 import { Radar } from '@/components'
-
 import { getRoleList, getServiceList } from '@/api/manage'
 
 const DataSet = require('@antv/data-set')
