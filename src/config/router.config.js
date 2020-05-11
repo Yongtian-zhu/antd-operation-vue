@@ -27,14 +27,8 @@ export const asyncRouterMap = [
           {
             path: '/form/step-form',
             name: 'StepForm',
-            component: () => import('@/views/form/stepForm/StepForm'),
+            component: () => import('@/views/form/StepForm'),
             meta: { title: '用户', keepAlive: true, permission: ['form'] }
-          },
-          {
-            path: '/form/advanced-form',
-            name: 'AdvanceForm',
-            component: () => import('@/views/form/advancedForm/AdvancedForm'),
-            meta: { title: '高级表单', keepAlive: true, permission: ['form'] }
           }
         ]
       },

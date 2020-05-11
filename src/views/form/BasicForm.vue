@@ -1,88 +1,99 @@
 <template>
   <a-card :bordered="false">
-    <search-form />
     <div class="table-page-search-wrapper">
       <a-form layout="inline">
         <a-row :gutter="48">
           <a-col :md="8" :sm="24">
-            <a-form-item label="组织名称">
-              <a-input placeholder="请输入" />
+            <a-form-item label="组织">
+              <a-input placeholder="请输入"/>
             </a-form-item>
           </a-col>
           <a-col :md="8" :sm="24">
             <a-form-item label="状态">
-              <a-select placeholder="请选择">
+              <a-select placeholder="请选择" >
                 <a-select-option value="0">启用</a-select-option>
-                <a-select-option value="1">禁止</a-select-option>
+                <a-select-option value="1">禁用</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
           <a-col :md="8" :sm="24">
             <a-form-item label="上级组织">
-              <a-select placeholder="请选择" default-value="0">
-                <a-select-option value="0">待定</a-select-option>
-                <a-select-option value="1">人大代表</a-select-option>
-                <a-select-option value="2">公安局</a-select-option>
-                <a-select-option value="3">省厅</a-select-option>
+              <a-select placeholder="请选择" >
+                <a-select-option value="0">市公安局</a-select-option>
+                <a-select-option value="1">市委</a-select-option>
+                <a-select-option value="2">省厅</a-select-option>
+                <a-select-option value="3">中央指挥</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
-          <a-col :md="8" :sm="24" :offset="20">
+          <!-- 按钮 -->
+          <a-col :md="12" :sm="24" >
+            <span>
+              <a-button icon="plus" type="primary">
+                新建
+              </a-button>
+              <a-button type="primary" style="margin-left: 10px">
+                删除
+              </a-button>
+              <a-button style="margin-left: 10px">导出列表</a-button>
+            </span>
+          </a-col>
+
+          <a-col :md="12" :sm="24" :style="{ textAlign: 'right' }">
             <span class="table-page-search-submitButtons">
               <a-button type="primary">查询</a-button>
-              <a-button style="margin-left: 8px">重置</a-button>
+              <a-button style="margin-left: 10px">重置</a-button>
             </span>
           </a-col>
         </a-row>
       </a-form>
     </div>
 
-    <s-table ref="table" size="default" :columns="columns" :data="loadData">
-      <div slot="expandedRowRender" slot-scope="record" style="margin: 0">
-        <a-row :gutter="24" :style="{ marginBottom: '12px' }">
-          <a-col
-            :span="12"
-            v-for="(role, index) in record.permissions"
-            :key="index"
-            :style="{ marginBottom: '12px' }"
-          >
-            <a-col :span="4">
-              <span>{{ role.permissionName }}：</span>
-            </a-col>
-            <a-col :span="20" v-if="role.actionEntitySet.length > 0">
-              <a-tag
-                color="cyan"
-                v-for="(action, k) in role.actionEntitySet"
-                :key="k"
-              >{{ action.describe }}</a-tag>
-            </a-col>
-            <a-col :span="20" v-else>-</a-col>
-          </a-col>
-        </a-row>
-      </div>
-      <span slot="action" slot-scope="text, record">
-        <a @click="$refs.modal.edit(record)">编辑</a>
-        <a-divider type="vertical" />
-        <a-dropdown>
-          <a class="ant-dropdown-link">
-            更多
-            <a-icon type="down" />
-          </a>
-          <a-menu slot="overlay">
-            <a-menu-item>
-              <a href="javascript:;">删除</a>
-            </a-menu-item>
-          </a-menu>
-        </a-dropdown>
-      </span>
+    <s-table
+      ref="table"
+      size="default"
+      :columns="columns"
+      :data="loadData"
+      :alert="{ show: true, clear: true }"
+      :rowSelection="{ selectedRowKeys: this.selectedRowKeys, onChange: this.onSelectChange }"
+    >
+      <template v-for="(col, index) in columns" v-if="col.scopedSlots" :slot="col.dataIndex" slot-scope="text, record">
+        <div :key="index">
+          <a-input
+            v-if="record.editable"
+            style="margin: -5px 0"
+            :value="text"
+            @change="e => handleChange(e.target.value, record.key, col, record)"
+          />
+          <template v-else>{{ text }}</template>
+        </div>
+      </template>
+      <template slot="action" slot-scope="text, record">
+        <div class="editable-row-operations">
+          <span v-if="record.editable">
+            <a @click="() => save(record)">保存</a>
+            <a-divider type="vertical" />
+            <a-popconfirm title="真的放弃编辑吗?" @confirm="() => cancel(record)">
+              <a>取消</a>
+            </a-popconfirm>
+          </span>
+          <!-- 操作 -->
+          <span v-else slot="action" slot-scope="text, record">
+            <a class="edit" @click="$refs.modal.edit(record)">修改</a>
+            <a-divider type="vertical" />
+            <a class="edit" >禁用</a>
+            <a-divider type="vertical" />
+          </span>
+        </div>
+      </template>
     </s-table>
 
     <role-modal ref="modal" @ok="handleOk"></role-modal>
+
   </a-card>
 </template>
 
 <script>
-import SearchForm from '@/components/SearchForm/SearchForm'
 import { STable } from '@/components'
 import RoleModal from './modules/RoleModal'
 
@@ -90,41 +101,41 @@ export default {
   name: 'BaseForm',
   components: {
     STable,
-    RoleModal,
-    SearchForm
+    RoleModal
   },
   data () {
     return {
-      description:
-        '列表使用场景：后台管理中的权限管理以及角色管理，可用于基于 RBAC 设计的角色权限控制，颗粒度细到每一个操作类型。',
+      // visible: false,
+      // selectedRows: [],
+      // formValues: {},
 
-      visible: false,
-
-      form: null,
-      mdl: {},
-
-      // 高级搜索 展开/关闭
-      advanced: false,
       // 查询参数
       queryParam: {},
       // 表头
       columns: [
         {
-          title: '唯一识别码',
+          title: '组织',
           dataIndex: 'id'
         },
         {
-          title: '角色名称',
+          title: '上级',
           dataIndex: 'name'
         },
         {
-          title: '状态',
-          dataIndex: 'status'
-        },
-        {
-          title: '创建时间',
+          title: '分类',
           dataIndex: 'createTime',
           sorter: true
+        },
+        {
+          title: '状态',
+          dataIndex: 'status',
+          sorter: (a, b) => {
+            return a.status.localeCompare(b.status)
+          },
+          align: 'center',
+          render: (text) => {
+            return text === '启用' ? <Badge color="#52c41a" text={text} /> : <Badge color="#f04134" text={text} />
+          }
         },
         {
           title: '操作',
@@ -161,11 +172,29 @@ export default {
       console.log(this.mdl)
       this.visible = true
     },
+    handleChange (value, key, column, record) {
+      console.log(value, key, column)
+      record[column.dataIndex] = value
+    },
+    edit (row) {
+      row.editable = true
+      // row = Object.assign({}, row)
+    },
+    // eslint-disable-next-line
+
     handleOk () {
       // 新增/修改 成功时，重载列表
       this.$refs.table.refresh()
     },
-    onChange (selectedRowKeys, selectedRows) {
+
+    save (row) {
+      row.editable = false
+    },
+    cancel (row) {
+      row.editable = false
+    },
+
+    onSelectChange (selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys
       this.selectedRows = selectedRows
     },
@@ -189,3 +218,24 @@ export default {
   }
 }
 </script>
+
+<style lang="less" scoped>
+  .search {
+    margin-bottom: 54px;
+  }
+
+  .fold {
+    width: calc(100% - 216px);
+    display: inline-block
+  }
+
+  .operator {
+    margin-bottom: 18px;
+  }
+
+  @media screen and (max-width: 900px) {
+    .fold {
+      width: 100%;
+    }
+  }
+</style>

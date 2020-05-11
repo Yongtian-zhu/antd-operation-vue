@@ -1,23 +1,58 @@
 <template>
   <a-modal
-    title="修改"
-    :width="800"
+    title="新建组织"
+    :width="600"
     :visible="visible"
     :confirmLoading="confirmLoading"
     @ok="handleOk"
     @cancel="handleCancel"
   >
-    <a-steps :current="1">
-      <a-step>
-        <!-- <span slot="title">Finished</span> -->
-        <template slot="title">
-          Finished
-        </template>
-        <span slot="description">This is a description.</span>
-      </a-step>
-      <a-step title="66In Progress" description="This is a description." />
-      <a-step title="Waiting" description="This is a description." />
-    </a-steps>
+    <a-form-model
+      ref="ruleForm"
+      :model="form"
+      :rules="rules"
+      :label-col="labelCol"
+      :wrapper-col="wrapperCol"
+    >
+
+      <a-form-model-item label="上级组织" prop="superior">
+        <a-select v-model="form.superior" placeholder="请选择">
+          <a-select-option value="shiwei">
+            市委
+          </a-select-option>
+          <a-select-option value="gongan">
+            公安局
+          </a-select-option>
+        </a-select>
+      </a-form-model-item>
+
+      <a-form-model-item ref="name" label="组织名称" prop="name">
+        <a-input placeholder="请输入" v-model="form.name" @blur=" () => { $refs.name.onFieldBlur(); } " />
+      </a-form-model-item>
+
+      <a-form-model-item label="分类" prop="sort">
+        <a-select v-model="form.sort" placeholder="请选择">
+          <a-select-option value="zuzhi">
+            组织
+          </a-select-option>
+          <a-select-option value="bumen">
+            部门
+          </a-select-option>
+        </a-select>
+      </a-form-model-item>
+
+      <a-form-model-item label="备注" prop="desc">
+        <a-input v-model="form.desc" type="textarea" />
+      </a-form-model-item>
+      <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
+        <a-button style="margin-left: 10px;" >
+          取消
+        </a-button>
+        <a-button type="primary" @click="onSubmit">
+          创建
+        </a-button>
+      </a-form-model-item>
+    </a-form-model>
   </a-modal>
 </template>
 
@@ -27,7 +62,7 @@ import { actionToObject } from '@/utils/permissions'
 import pick from 'lodash.pick'
 
 export default {
-  name: 'RoleModal',
+  name: 'AddModal',
   data () {
     return {
       labelCol: {
@@ -42,7 +77,34 @@ export default {
       confirmLoading: false,
       mdl: {},
 
-      form: this.$form.createForm(this),
+      // form: this.$form.createForm(this),
+      form: {
+        name: '',
+        superior: undefined,
+        sort: undefined,
+        desc: ''
+      },
+      rules: {
+        name: [
+          { required: true, message: '请输入', trigger: 'blur' }
+          // { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' }
+        ],
+        superior: [{ required: true, message: '请选择', trigger: 'change' }],
+        sort: [{ required: true, message: '请选择', trigger: 'change' }],
+        type: [
+          {
+            type: 'array',
+            required: true,
+            message: 'Please select at least one activity type',
+            trigger: 'change'
+          }
+        ],
+        resource: [
+          { required: true, message: 'Please select activity resource', trigger: 'change' },
+        ],
+        desc: [{ required: true, message: 'Please input activity form', trigger: 'blur' }],
+      },
+
       permissions: []
     }
   },
