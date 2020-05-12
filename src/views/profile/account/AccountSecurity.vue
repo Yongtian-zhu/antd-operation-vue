@@ -1,7 +1,10 @@
 <template>
   <!-- 账户安全 -->
   <a-card :bordered="false">
-    <a-form style="margin-top: 8px">
+    <a-form
+      :label-col="labelCol"
+      :wrapper-col="wrapperCol"
+      style="margin-top: 8px">
       <span class="title">密码策略</span>
       <div class="form_group">
         <a-form-item label="启用复杂度">
@@ -9,12 +12,12 @@
         </a-form-item>
 
         <a-form-item label="密码长度最小值">
-          <a-input min="6" />
+          <a-input-number min="6" />
           <span class="input_trem">个字符</span>
         </a-form-item>
 
         <a-form-item label="密码基本使用期限">
-          <a-input min="1" />
+          <a-input-number min="1" />
           <span class="input_trem">天</span>
         </a-form-item>
 
@@ -36,7 +39,25 @@
         <a-form-item label="启用锁定">
           <a-checkbox>启用</a-checkbox>
         </a-form-item>
+        <a-form-item label="锁定阈值">
+          <a-input-number min="1" />
+          <span class="input_trem">次登陆失败</span>
+        </a-form-item>
+        <a-form-item label="锁定时间">
+          <a-input-number min="1" />
+          <span class="input_trem">分钟</span>
+        </a-form-item>
       </div>
+
+      <span class="title">登陆日志</span>
+      <div class="form_group">
+        <a-form-item label="启用登陆日志">
+          <a-checkbox>启用</a-checkbox>
+        </a-form-item>
+      </div>
+      <a-form-item>
+        <a-button type="primary">保存</a-button>
+      </a-form-item>
     </a-form>
   </a-card>
 </template>
@@ -46,7 +67,20 @@ export default {
   name: 'AccountSecurity',
   data () {
     return {
-
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 8 },
+        md: { span: 8 },
+        lg: { span: 4 },
+        xxl: { span: 3 }
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 12 },
+        md: { span: 12 },
+        lg: { span: 12 },
+        xxl: { span: 8 }
+      }
     }
   }
 
