@@ -11,7 +11,7 @@ export const asyncRouterMap = [
     meta: { title: '首页' },
     redirect: '/form/base-form',
     children: [
-      // forms
+      // 用户组织管理
       {
         path: '/form',
         redirect: '/form/base-form',
@@ -25,9 +25,9 @@ export const asyncRouterMap = [
             meta: { title: '组织', keepAlive: true, permission: ['form'] }
           },
           {
-            path: '/form/step-form',
-            name: 'StepForm',
-            component: () => import('@/views/form/StepForm'),
+            path: '/form/user-form',
+            name: 'UserForm',
+            component: () => import('@/views/form/UserForm'),
             meta: { title: '用户', keepAlive: true, permission: ['form'] }
           }
         ]
@@ -90,48 +90,25 @@ export const asyncRouterMap = [
         ]
       },
 
-      // profile
+      // profile 安全管理
       {
         path: '/profile',
         name: 'profile',
         component: RouteView,
         redirect: '/profile/basic',
-        meta: { title: '详情页', icon: 'profile', permission: ['profile'] },
+        meta: { title: '安全管理', icon: 'profile', permission: ['profile'] },
         children: [
           {
             path: '/profile/basic',
             name: 'ProfileBasic',
             component: () => import('@/views/profile/basic/Index'),
-            meta: { title: '基础详情页', permission: ['profile'] }
+            meta: { title: '网络安全', permission: ['profile'] }
           },
           {
-            path: '/profile/advanced',
-            name: 'ProfileAdvanced',
-            component: () => import('@/views/profile/advanced/Advanced'),
-            meta: { title: '高级详情页', permission: ['profile'] }
-          }
-        ]
-      },
-
-      // result
-      {
-        path: '/result',
-        name: 'result',
-        component: PageView,
-        redirect: '/result/success',
-        meta: { title: '结果页', icon: 'check-circle-o', permission: ['result'] },
-        children: [
-          {
-            path: '/result/success',
-            name: 'ResultSuccess',
-            component: () => import(/* webpackChunkName: "result" */ '@/views/result/Success'),
-            meta: { title: '成功', keepAlive: false, hiddenHeaderContent: true, permission: ['result'] }
-          },
-          {
-            path: '/result/fail',
-            name: 'ResultFail',
-            component: () => import(/* webpackChunkName: "result" */ '@/views/result/Error'),
-            meta: { title: '失败', keepAlive: false, hiddenHeaderContent: true, permission: ['result'] }
+            path: '/profile/account-security',
+            name: 'AccountSecurity',
+            component: () => import('@/views/profile/account/AccountSecurity'),
+            meta: { title: '账户安全', permission: ['profile'] }
           }
         ]
       },

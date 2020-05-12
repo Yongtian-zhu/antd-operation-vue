@@ -2,7 +2,7 @@
   <a-modal
     title="新建组织"
     :width="800"
-    :visible="visible"
+    v-model="visible"
     :confirmLoading="confirmLoading"
     @ok="handleOk"
     @cancel="handleCancel"
@@ -16,7 +16,7 @@
     >
 
       <a-form-model-item label="上级组织" prop="superior">
-        <a-select v-model="form.superior" placeholder="请选择">
+        <a-select v-model="mdl.name" placeholder="请选择">
           <a-select-option value="shiwei">
             市委
           </a-select-option>
@@ -27,7 +27,7 @@
       </a-form-model-item>
 
       <a-form-model-item ref="name" label="组织名称" prop="name">
-        <a-input placeholder="请输入" v-model="form.name" @blur=" () => { $refs.name.onFieldBlur(); } " />
+        <a-input placeholder="请输入" v-model="mdl.id" @blur=" () => { $refs.name.onFieldBlur(); } " />
       </a-form-model-item>
 
       <a-form-model-item label="分类" prop="sort">

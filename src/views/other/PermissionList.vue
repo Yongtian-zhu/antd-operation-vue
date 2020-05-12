@@ -38,7 +38,7 @@
       </span>
 
       <span slot="action" slot-scope="text, record">
-        <a @click="handleEdit(record)">编辑</a>
+        <a @click="handleEdit(record)">编辑1</a>
         <a-divider type="vertical" />
         <a-dropdown>
           <a class="ant-dropdown-link">

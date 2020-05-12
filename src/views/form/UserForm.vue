@@ -117,7 +117,7 @@
           <span v-else slot="action" slot-scope="text, record">
             <a class="edit" @click="$refs.modal.edit(record)">修改</a>
             <a-divider type="vertical" />
-            <a class="edit" @click="$refs.modal.edit(record)">禁用</a>
+            <a class="edit" @click="() => disable(record)">禁用</a>
             <a-divider type="vertical" />
             <a-dropdown>
               <a class="ant-dropdown-link">
@@ -125,13 +125,13 @@
               </a>
               <a-menu slot="overlay">
                 <a-menu-item>
-                  <a href="javascript:;">详情</a>
+                  <a href="javascript:;">重置密码</a>
                 </a-menu-item>
                 <a-menu-item>
-                  <a href="javascript:;">禁用</a>
+                  <a href="javascript:;">分配角色</a>
                 </a-menu-item>
                 <a-menu-item>
-                  <a href="javascript:;">删除</a>
+                  <a href="javascript:;">查看权限</a>
                 </a-menu-item>
               </a-menu>
             </a-dropdown>
@@ -150,7 +150,7 @@ import { STable } from '@/components'
 import RoleModal from './modules/RoleModal'
 
 export default {
-  name: 'StepFrom',
+  name: 'UserFrom',
   components: {
     STable,
     RoleModal

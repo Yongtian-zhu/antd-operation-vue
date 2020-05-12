@@ -29,7 +29,7 @@
           <!-- 按钮 -->
           <a-col :md="12" :sm="24" >
             <span>
-              <a-button icon="plus" type="primary">
+              <a-button @click="$refs.createModal.add()" icon="plus" type="primary">
                 新建
               </a-button>
               <a-button type="primary" style="margin-left: 10px">
@@ -79,36 +79,36 @@
           </span>
           <!-- 操作 -->
           <span v-else slot="action" slot-scope="text, record">
-            <a class="edit" @click="$refs.modal.edit(record)">修改</a>
+            <a class="alter" @click="handleEdit(record)">修改</a>
             <a-divider type="vertical" />
-            <a class="edit" >禁用</a>
-            <a-divider type="vertical" />
+            <a class="disable" @click="() => disable(record)">禁用</a>
           </span>
         </div>
       </template>
     </s-table>
+    <!-- 新建 -->
+    <add-modal ref="createModal" @ok="handleOk"></add-modal>
 
-    <role-modal ref="modal" @ok="handleOk"></role-modal>
+    <!-- 修改 -->
+    <alter-modal ref="modal" @ok="handleOk"></alter-modal>
 
   </a-card>
 </template>
 
 <script>
 import { STable } from '@/components'
-import RoleModal from './modules/RoleModal'
+import AlterModal from './modules/AlterModal'
+import AddModal from './modules/AddModal'
 
 export default {
   name: 'BaseForm',
   components: {
     STable,
-    RoleModal
+    AddModal,
+    AlterModal
   },
   data () {
     return {
-      // visible: false,
-      // selectedRows: [],
-      // formValues: {},
-
       // 查询参数
       queryParam: {},
       // 表头
@@ -140,6 +140,7 @@ export default {
         {
           title: '操作',
           width: '150px',
+          align: 'center',
           dataIndex: 'action',
           scopedSlots: { customRender: 'action' }
         }
@@ -161,6 +162,9 @@ export default {
   },
   methods: {
     handleEdit (record) {
+      console.log(record)
+      this.$refs.modal.edit(record)
+
       this.mdl = Object.assign({}, record)
 
       this.mdl.permissions.forEach(permission => {
@@ -186,6 +190,26 @@ export default {
       // 新增/修改 成功时，重载列表
       this.$refs.table.refresh()
     },
+    // 禁用
+    disable (row) {
+      this.$confirm({
+        title: '禁用成功',
+        content: `单位 ${row.id} 确定禁用吗?`,
+        okText: '确定',
+        okType: 'success',
+        // cancelText: '取消',
+        onOk () {
+          console.log('OK')
+          // 在这里调用禁用接口
+          return new Promise((resolve, reject) => {
+            setTimeout(Math.random() > 0.5 ? resolve : reject, 1000)
+          }).catch(() => console.log('Oops errors!'))
+        },
+        onCancel () {
+          console.log('Cancel')
+        }
+      })
+    },
 
     save (row) {
       row.editable = false
@@ -194,6 +218,10 @@ export default {
       row.editable = false
     },
 
+    onChange (selectedRowKeys, selectedRows) {
+      this.selectedRowKeys = selectedRowKeys
+      this.selectedRows = selectedRows
+    },
     onSelectChange (selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys
       this.selectedRows = selectedRows
