@@ -1,7 +1,7 @@
 <template>
   <a-modal
     title="新建组织"
-    :width="800"
+    :width="640"
     :visible="visible"
     :confirmLoading="confirmLoading"
     @ok="handleOk"

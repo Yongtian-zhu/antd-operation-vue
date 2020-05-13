@@ -12,25 +12,28 @@
         </a-form-item>
 
         <a-form-item label="密码长度最小值">
-          <a-input-number min="6" />
+          <a-input-number :min="6" />
           <span class="input_trem">个字符</span>
         </a-form-item>
 
         <a-form-item label="密码基本使用期限">
-          <a-input-number min="1" />
+          <a-input-number :min="1" />
           <span class="input_trem">天</span>
         </a-form-item>
 
         <a-form-item label="复杂度要求">
-          <a-checkbox value="1">
-            含字母
-          </a-checkbox>
-          <a-checkbox value="2">
-            含数字
-          </a-checkbox>
-          <a-checkbox value="3">
-            含特殊字符
-          </a-checkbox>
+          <a-checkbox-group>
+
+            <a-checkbox value="1">
+              含字母
+            </a-checkbox>
+            <a-checkbox value="2">
+              含数字
+            </a-checkbox>
+            <a-checkbox value="3">
+              含特殊字符
+            </a-checkbox>
+          </a-checkbox-group>
         </a-form-item>
       </div>
 
@@ -40,11 +43,11 @@
           <a-checkbox>启用</a-checkbox>
         </a-form-item>
         <a-form-item label="锁定阈值">
-          <a-input-number min="1" />
+          <a-input-number :min="1" />
           <span class="input_trem">次登陆失败</span>
         </a-form-item>
         <a-form-item label="锁定时间">
-          <a-input-number min="1" />
+          <a-input-number :min="1" />
           <span class="input_trem">分钟</span>
         </a-form-item>
       </div>
@@ -55,8 +58,8 @@
           <a-checkbox>启用</a-checkbox>
         </a-form-item>
       </div>
-      <a-form-item>
-        <a-button type="primary">保存</a-button>
+      <a-form-item style="text-align:center">
+        <a-button type="primary" >保存</a-button>
       </a-form-item>
     </a-form>
   </a-card>
