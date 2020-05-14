@@ -69,6 +69,7 @@
           <template v-else>{{ text }}</template>
         </div>
       </template>
+
       <template slot="action" slot-scope="text, record">
         <div class="editable-row-operations">
           <span v-if="record.editable">
@@ -89,7 +90,6 @@
     </s-table>
     <!-- 新建 -->
     <add-modal ref="createModal" @ok="handleOk"></add-modal>
-
     <!-- 修改 -->
     <alter-modal ref="modal" @ok="handleOk"></alter-modal>
 
@@ -191,6 +191,7 @@ export default {
       // 新增/修改 成功时，重载列表
       this.$refs.table.refresh()
     },
+
     // 禁用
     disable (row) {
       this.$confirm({

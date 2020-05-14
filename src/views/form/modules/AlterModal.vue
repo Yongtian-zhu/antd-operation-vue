@@ -1,6 +1,6 @@
 <template>
   <a-modal
-    title="新建组织"
+    title="修改组织 "
     :width="800"
     v-model="visible"
     :confirmLoading="confirmLoading"
@@ -44,14 +44,6 @@
       <a-form-model-item label="备注" prop="desc">
         <a-input v-model="form.desc" type="textarea" />
       </a-form-model-item>
-      <!-- <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
-        <a-button style="margin-left: 10px;" >
-          取消
-        </a-button>
-        <a-button type="primary" @click="onSubmit">
-          创建
-        </a-button>
-      </a-form-model-item> -->
     </a-form-model>
   </a-modal>
 </template>

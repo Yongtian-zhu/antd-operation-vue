@@ -4,13 +4,13 @@
       <a-form layout="inline">
         <a-row :gutter="48">
           <a-col :md="8" :sm="24">
-            <a-form-item label="规则编号">
-              <a-input v-model="queryParam.id" placeholder=""/>
+            <a-form-item label="资源名称">
+              <a-input v-model="queryParam.id" placeholder="请输入"/>
             </a-form-item>
           </a-col>
           <a-col :md="8" :sm="24">
-            <a-form-item label="规则编号">
-              <a-input v-model="queryParam.id" placeholder=""/>
+            <a-form-item label="请求地址">
+              <a-input v-model="queryParam.id" placeholder="请输入"/>
             </a-form-item>
           </a-col>
 
@@ -62,13 +62,15 @@
         <template>
           <a @click="handleEdit(record)">修改</a>
           <a-divider type="vertical" />
-          <a @click="handleSub(record)">查看</a>
+          <a @click="handleDetails(record)">查看</a>
         </template>
       </span>
     </s-table>
 
     <create-form ref="createModal" @ok="handleOk" />
-    <step-by-step-modal ref="modal" @ok="handleOk"/>
+    <step-by-step-modal ref="changeModal" @ok="handleOk"/>
+    <details ref="modal" @ok="handleOk"/>
+
   </a-card>
 </template>
 
@@ -77,6 +79,7 @@ import moment from 'moment'
 import { STable, Ellipsis } from '@/components'
 import StepByStepModal from './modules/StepByStepModal'
 import CreateForm from './modules/CreateForm'
+import Details from './modules/Details'
 import { getRoleList, getServiceList } from '@/api/manage'
 
 const statusMap = {
@@ -104,6 +107,7 @@ export default {
     STable,
     Ellipsis,
     CreateForm,
+    Details,
     StepByStepModal
   },
   data () {
@@ -214,15 +218,30 @@ export default {
 
     handleEdit (record) {
       console.log(record)
+      this.$refs.changeModal.edit(record)
+    },
+
+    // 查看
+    handleDetails (record) {
+      // if (record.status !== 0) {
+      //   this.$message.info(`${record.no} 订阅成功`)
+      // } else {
+      //   this.$message.error(`${record.no} 订阅失败，规则已关闭`)
+      // }
+      // console.log(record + '111100111')
       this.$refs.modal.edit(record)
+
+      this.mdl = Object.assign({}, record)
+
+      this.mdl.permissions.forEach(permission => {
+        permission.actionsOptions = permission.actionEntitySet.map(action => {
+          return { label: action.describe, value: action.action, defaultCheck: action.defaultCheck }
+        })
+      })
+      console.log(this.mdl)
+      this.visible = true
     },
-    handleSub (record) {
-      if (record.status !== 0) {
-        this.$message.info(`${record.no} 订阅成功`)
-      } else {
-        this.$message.error(`${record.no} 订阅失败，规则已关闭`)
-      }
-    },
+
     handleOk () {
       this.$refs.table.refresh()
     },

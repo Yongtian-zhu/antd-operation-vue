@@ -29,6 +29,12 @@ export const asyncRouterMap = [
             name: 'UserForm',
             component: () => import('@/views/form/UserForm'),
             meta: { title: '用户', keepAlive: true, permission: ['form'] }
+          },
+          {
+            path: '/form/user',
+            name: 'User',
+            component: () => import('@/views/form/User'),
+            meta: { title: '用户管理', keepAlive: true, permission: ['form'] }
           }
         ]
       },

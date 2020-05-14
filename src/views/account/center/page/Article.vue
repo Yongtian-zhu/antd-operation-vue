@@ -17,8 +17,8 @@
         <template slot="description">
           <span>
             <a-tag>Ant Design</a-tag>
-            <a-tag>设计语言</a-tag>
-            <a-tag>蚂蚁金服</a-tag>
+            <a-tag>设计语言1</a-tag>
+            <a-tag>蚂蚁金服1</a-tag>
           </span>
         </template>
       </a-list-item-meta>
@@ -32,12 +32,12 @@
 
 <script>
 import { ArticleListContent } from '@/components'
-import IconText from '@/views/list/search/components/IconText'
+// import IconText from '@/views/list/search/components/IconText'
 
 export default {
   name: 'Article',
   components: {
-    IconText,
+    // IconText,
     ArticleListContent
   },
   data () {

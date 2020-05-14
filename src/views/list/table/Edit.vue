@@ -5,12 +5,12 @@
       <a-form-item
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
-        label="规则编号"
+        label="规则编号11"
         hasFeedback
         validateStatus="success"
       >
         <a-input
-          placeholder="规则编号"
+          placeholder="规则编号1"
           v-decorator="[
             'no',
             {rules: [{ required: true, message: '请输入规则编号' }]}
